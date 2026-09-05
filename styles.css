@@ -2205,6 +2205,7 @@ h3 {
   box-shadow: none;         /* Removes box shadow */
   overflow: hidden;
   position: relative;
+  margin-top: 10px !important;
 }
 
     #qr .qr img {
@@ -2471,6 +2472,7 @@ img {
   border: none !important;
   box-shadow: none !important;
   margin-left: 0px;
+  margin-top: 10px !important;
 }
 
 /* Force canvas element inside it to match */
@@ -2480,6 +2482,7 @@ img {
   height: 315px !important;
   border: none !important;
   box-shadow: none !important;
+  margin-top: 10px !important;
 }
 
 
@@ -2487,7 +2490,7 @@ img {
 
 
 
-
+o
 
 /* Shared styling for all 3 holograms */
 #holoContainer .holo-layer {
