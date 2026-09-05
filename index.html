@@ -997,6 +997,7 @@ function closeQR() {
   document.querySelectorAll('.page').forEach(p => p.style.display = 'none');
   document.getElementById('home').style.display = 'block';
   updateRefreshTime();
+  resetQR();
 
   // restore pill
   const homeSeg = document.querySelector('#home .segmented');
@@ -1181,19 +1182,28 @@ function navigateToPage(pageId) {
 
   updateRefreshTime();
 
-  if (pageId === "qr") {
+   if (pageId === "qr") {
+    // 1. Reset timer & generated QR immediately
     resetQR();
     updateDynamicQR();
+
     const overlayQR = document.getElementById("overlay");
     const expires = document.querySelector(".expires");
     const qrContainer = document.getElementById("dynamic-qr-container");
     const qrPlaceholder = document.getElementById("qrPlaceholder");
+    const qr = document.querySelector(".qr");
 
-    if (overlayQR) { overlayQR.style.display = "flex"; overlayQR.style.opacity = "1"; }
+    // 2. FORCE LOADER RESET: Remove old transition state and show loader overlay
+    if (qr) qr.classList.remove("unblur");
+    if (overlayQR) { 
+      overlayQR.style.display = "flex"; 
+      overlayQR.style.opacity = "1"; 
+    }
     if (expires) expires.style.opacity = "0";
     if (qrContainer) qrContainer.style.opacity = "0";
     if (qrPlaceholder) qrPlaceholder.style.opacity = "1";
 
+    // 3. Hide loader and reveal content after animation finishes
     setTimeout(() => {
       if (overlayQR) overlayQR.style.opacity = "0";
       setTimeout(() => {
@@ -1201,12 +1211,12 @@ function navigateToPage(pageId) {
         if (expires) expires.style.opacity = "1";
         if (qrPlaceholder) qrPlaceholder.style.opacity = "0";
         if (qrContainer) qrContainer.style.opacity = "1";
-        const qr = document.querySelector(".qr");
         if (qr) qr.classList.add("unblur");
         startTimer();
       }, 400);
-    }, 3000);
+    }, 1500); // Trigger loader for 1.5 seconds every visit
   }
+
 }
 
 // SCROLL RESISTANCE — all three here, outside showPage
